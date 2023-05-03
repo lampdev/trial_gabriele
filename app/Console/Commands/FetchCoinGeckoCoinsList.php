@@ -26,11 +26,14 @@ class FetchCoinGeckoCoinsList extends Command
 
     /**
      * Execute the console command.
+     *
+     * @param CoinGeckoAPIService $coinGeckoAPIService - The service used to fetch the coin data.
+     * @param CoinSavingService $coinSavingService - The service used to save the coin data to the database.
+     * @return void
      */
     public function handle(
         CoinGeckoAPIService $coinGeckoAPIService,
         CoinSavingService $coinSavingService
-
     ): void {
         $this->info('Fetching coins list from CoinGecko...');
 
