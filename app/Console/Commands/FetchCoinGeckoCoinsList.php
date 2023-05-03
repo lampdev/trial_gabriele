@@ -15,14 +15,14 @@ class FetchCoinGeckoCoinsList extends Command
      *
      * @var string
      */
-    protected $signature = 'coin-gecko:get-coins';
+    protected $signature = 'coin-gecko:get-coins {--include_platforms : Flag to include platform contract addresses (eg. 0x.... for Ethereum based tokens).}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Fetch coins list from CoinGecko API and save it to database.';
 
     /**
      * Execute the console command.
@@ -35,7 +35,7 @@ class FetchCoinGeckoCoinsList extends Command
         $this->info('Fetching coins list from CoinGecko...');
 
         try {
-            $coins = $coinGeckoAPIService->getCoinsList(true);
+            $coins = $coinGeckoAPIService->getCoinsList($this->option('include_platforms'));
         } catch (Exception $exception) {
             $this->error($exception->getMessage());
 
