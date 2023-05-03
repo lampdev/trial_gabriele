@@ -27,9 +27,8 @@ class FetchCoinGeckoCoinsList extends Command
     /**
      * Execute the console command.
      *
-     * @param CoinGeckoAPIService $coinGeckoAPIService - The service used to fetch the coin data.
-     * @param CoinSavingService $coinSavingService - The service used to save the coin data to the database.
-     * @return void
+     * @param  CoinGeckoAPIService  $coinGeckoAPIService - The service used to fetch the coin data.
+     * @param  CoinSavingService  $coinSavingService - The service used to save the coin data to the database.
      */
     public function handle(
         CoinGeckoAPIService $coinGeckoAPIService,
@@ -40,7 +39,7 @@ class FetchCoinGeckoCoinsList extends Command
         try {
             $coins = $coinGeckoAPIService->getCoinsList($this->option('include_platforms'));
         } catch (Exception $exception) {
-            $this->error($exception->getMessage());
+            $this->error('Failed to fetch coin data: '.$exception->getMessage());
 
             return;
         }

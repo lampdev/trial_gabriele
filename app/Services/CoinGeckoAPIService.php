@@ -30,8 +30,7 @@ class CoinGeckoAPIService
     /**
      * Get error message from response or return default one.
      *
-     * @param Response $response - response instance
-     * @return string
+     * @param  Response  $response - response instance
      */
     protected function getResponseErrorMessage(Response $response): string
     {
@@ -40,8 +39,6 @@ class CoinGeckoAPIService
 
     /**
      * Return PendingRequest with set up headers.
-     *
-     * @return PendingRequest
      */
     protected function getHttpClient(): PendingRequest
     {
@@ -58,7 +55,6 @@ class CoinGeckoAPIService
      * Fetch coins data. Throw Exception if error.
      *
      * @param  bool|null  $includePlatform flag to include platform contract addresses
-     * @return array
      *
      * @throws Exception
      */
