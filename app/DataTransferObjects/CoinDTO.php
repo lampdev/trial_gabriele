@@ -15,8 +15,10 @@ readonly class CoinDTO
 
     public static function fromCoinGeckoCoinsRequest(array $attributes): CoinDTO
     {
-        $contractAddresses = $attributes['platforms'] ?? false
-            ? array_map(
+        $contractAddresses = [];
+
+        if (isset($attributes['platforms']) && is_array($attributes['platforms'])) {
+            $contractAddresses = array_map(
                 fn ($platformKey, $contractAddress) => new ContractAddressDTO(
                     $platformKey,
                     $attributes['id'],
@@ -24,8 +26,8 @@ readonly class CoinDTO
                 ),
                 array_keys($attributes['platforms']),
                 array_values($attributes['platforms'])
-            )
-            : [];
+            );
+        }
 
         return new CoinDTO(
             null,
