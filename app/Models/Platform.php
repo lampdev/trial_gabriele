@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Platform extends Model
 {
@@ -12,4 +13,10 @@ class Platform extends Model
     protected $fillable = [
         'key',
     ];
+
+    public function coins(): BelongsToMany
+    {
+        return $this->belongsToMany(Coin::class, 'platform_coins')
+            ->withPivot('contract_address');
+    }
 }

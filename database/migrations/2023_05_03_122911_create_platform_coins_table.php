@@ -11,9 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contract_addresses', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-
+        Schema::create('platform_coins', function (Blueprint $table) {
             $table->foreignUuid('coin_id')
                 ->constrained()
                 ->cascadeOnDelete();
@@ -24,8 +22,6 @@ return new class extends Migration
 
             $table->string('contract_address')
                 ->nullable();
-
-            $table->timestamps();
         });
     }
 
@@ -34,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contract_addresses');
+        Schema::dropIfExists('platform_coins');
     }
 };

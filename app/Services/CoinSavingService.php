@@ -9,8 +9,25 @@ use Illuminate\Support\Collection;
 class CoinSavingService
 {
     public function __construct(
-        protected ContractAddressSavingService $contractAddressSavingService,
+        private readonly PlatformSavingService $platformSavingService
     ) {
+    }
+
+    public function attachPlatforms(Coin $coin, CoinDTO $coinDTO): void
+    {
+        if (! isset($coinDTO->platforms)) {
+            return;
+        }
+
+        $syncPlatforms = [];
+
+        foreach ($coinDTO->platforms as $coinPlatformDTO) {
+            $platform = $this->platformSavingService->findOrCreateByKey($coinPlatformDTO->platformKey);
+
+            $syncPlatforms[$platform->id] = ['contract_address' => $coinPlatformDTO->contractAddress];
+        }
+
+        $coin->platforms()->sync($syncPlatforms);
     }
 
     public function saveCoin(CoinDTO $coinDTO): Coin
@@ -23,13 +40,7 @@ class CoinSavingService
         ]);
 
         $coin->save();
-
-        if (count($coinDTO->contractAddresses)) {
-            $this->contractAddressSavingService->saveMany(
-                $coin,
-                ...$coinDTO->contractAddresses
-            );
-        }
+        $this->attachPlatforms($coin, $coinDTO);
 
         return $coin;
     }

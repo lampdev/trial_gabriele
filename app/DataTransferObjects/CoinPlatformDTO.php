@@ -2,12 +2,12 @@
 
 namespace App\DataTransferObjects;
 
-readonly class ContractAddressDTO
+readonly class CoinPlatformDTO
 {
     public function __construct(
-        public string $platformKey,
         public string $coinKey,
-        public ?string $contractAddress = null,
+        public string $platformKey,
+        public ?string $contractAddress,
     ) {
     }
 }

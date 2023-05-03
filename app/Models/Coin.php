@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Coin extends Model
 {
@@ -16,8 +16,9 @@ class Coin extends Model
         'name',
     ];
 
-    public function contractAddresses(): HasMany
+    public function platforms(): BelongsToMany
     {
-        return $this->hasMany(ContractAddress::class);
+        return $this->belongsToMany(Platform::class, 'platform_coins')
+            ->withPivot('contract_address');
     }
 }

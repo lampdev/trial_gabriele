@@ -5,23 +5,22 @@ namespace App\DataTransferObjects;
 readonly class CoinDTO
 {
     public function __construct(
-        public ?string $id,
         public string $key,
         public string $symbol,
         public string $name,
-        public array $contractAddresses = []
+        public ?array $platforms = null
     ) {
     }
 
     public static function fromCoinGeckoCoinsRequest(array $attributes): CoinDTO
     {
-        $contractAddresses = [];
+        $assignedPlatforms = null;
 
         if (isset($attributes['platforms']) && is_array($attributes['platforms'])) {
-            $contractAddresses = array_map(
-                fn ($platformKey, $contractAddress) => new ContractAddressDTO(
-                    $platformKey,
+            $assignedPlatforms = array_map(
+                fn ($platformKey, $contractAddress) => new CoinPlatformDTO(
                     $attributes['id'],
+                    $platformKey,
                     $contractAddress
                 ),
                 array_keys($attributes['platforms']),
@@ -30,11 +29,10 @@ readonly class CoinDTO
         }
 
         return new CoinDTO(
-            null,
             $attributes['id'],
             $attributes['symbol'],
             $attributes['name'],
-            $contractAddresses
+            $assignedPlatforms
         );
     }
 }
